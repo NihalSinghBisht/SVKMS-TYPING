@@ -12,6 +12,12 @@ const commonWords = [
     'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us'
 ];
 
+// Punctuation marks
+const punctuationMarks = ['.', ',', '!', '?', ';', ':', '"', "'", '(', ')', '-', '—'];
+
+// Numbers
+const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
 // Configuration object
 let config = {
     mode: 'time',
@@ -59,9 +65,24 @@ function init() {
 function generateWords() {
     const count = config.mode === 'time' ? 200 : config.wordCount;
     state.words = [];
+    
     for (let i = 0; i < count; i++) {
+        let word = commonWords[Math.floor(Math.random() * commonWords.length)];
+        
+        // Add punctuation if enabled
+        if (config.punctuation && Math.random() < 0.3) { // 30% chance
+            const punctuation = punctuationMarks[Math.floor(Math.random() * punctuationMarks.length)];
+            word += punctuation;
+        }
+        
+        // Add numbers if enabled
+        if (config.numbers && Math.random() < 0.2) { // 20% chance
+            const number = numbers[Math.floor(Math.random() * numbers.length)];
+            word += number;
+        }
+        
         state.words.push({
-            text: commonWords[Math.floor(Math.random() * commonWords.length)],
+            text: word,
             letters: []
         });
     }
@@ -363,7 +384,40 @@ function setMode(mode) {
         config.numbers = !config.numbers;
     }
     event.target.classList.toggle('active');
+    
+    // Regenerate words with new settings
+    generateWords();
+    renderWords();
 }
 
 // Initialize on page load
 init();
+
+// Load user data and check authentication
+function loadUserData() {
+    const userData = localStorage.getItem('userData');
+    
+    if (!userData) {
+        // No user data found, redirect to login
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    try {
+        const user = JSON.parse(userData);
+        document.getElementById('user-name').textContent = user.username;
+        document.getElementById('user-college').textContent = `${user.college} - ${user.branch}`;
+    } catch (error) {
+        console.error('Error parsing user data:', error);
+        window.location.href = 'login.html';
+    }
+}
+
+// Logout function
+function logout() {
+    localStorage.removeItem('userData');
+    window.location.href = 'login.html';
+}
+
+// Load user data when page loads
+loadUserData();

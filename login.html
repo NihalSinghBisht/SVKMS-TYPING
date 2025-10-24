@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVKMs TYPE - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-container {
+            background-color: var(--card);
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--border);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-title {
+            font-family: var(--font-sans);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--muted-foreground);
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background-color: var(--input);
+            color: var(--foreground);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-input::placeholder {
+            color: var(--muted-foreground);
+            opacity: 0.6;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background-color: var(--input);
+            color: var(--foreground);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-select option {
+            background-color: var(--card);
+            color: var(--foreground);
+            padding: 0.5rem;
+        }
+
+        .login-btn {
+            width: 100%;
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-lg);
+            margin-top: 1rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background-color: var(--destructive);
+            color: var(--destructive-foreground);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .success-message {
+            background-color: var(--accent);
+            color: var(--accent-foreground);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .footer-login {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .footer-login p {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-family: var(--font-sans);
+            opacity: 0.7;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .login-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1 class="login-title">SVKMs TYPE</h1>
+            <p class="login-subtitle">Enter your details to start competing with fellow SVKMs students🔥</p>
+        </div>
+
+        <div class="error-message" id="error-message"></div>
+        <div class="success-message" id="success-message"></div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    class="form-input" 
+                    placeholder="Enter your username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="sap-id" class="form-label">SAP ID</label>
+                <input 
+                    type="text" 
+                    id="sap-id" 
+                    name="sap-id" 
+                    class="form-input" 
+                    placeholder="Enter your SAP ID"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="college" class="form-label">College</label>
+                <select id="college" name="college" class="form-select" required>
+                    <option value="">Select your college</option>
+                    <option value="DJ SANGHVI">DJ SANGHVI</option>
+                    <option value="BHAGUBAI">BHAGUBAI</option>
+                    <option value="MPSTME">MPSTME</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="branch" class="form-label">Branch</label>
+                <select id="branch" name="branch" class="form-select" required>
+                    <option value="">Select your branch</option>
+                    <option value="CE">CE</option>
+                    <option value="IT">IT</option>
+                    <option value="CSE DS">CSE DS</option>
+                    <option value="AIDS">AIDS</option>
+                    <option value="AIML">AIML</option>
+                    <option value="IOT">IOT</option>
+                    <option value="EXTC">EXTC</option>
+                    <option value="MECH">MECH</option>
+                </select>
+            </div>
+
+            <button type="submit" class="login-btn">Start Typing Test</button>
+        </form>
+    </div>
+
+    <div class="footer-login">
+        <p>made with love by Tanvir and Nihal</p>
+    </div>
+
+    <script>
+        // Form validation and submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const sapId = document.getElementById('sap-id').value.trim();
+            const college = document.getElementById('college').value;
+            const branch = document.getElementById('branch').value;
+            
+            const errorDiv = document.getElementById('error-message');
+            const successDiv = document.getElementById('success-message');
+            
+            // Hide previous messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Validation
+            if (!username || !sapId || !college || !branch) {
+                errorDiv.textContent = 'Please fill in all fields';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            if (username.length < 3) {
+                errorDiv.textContent = 'Username must be at least 3 characters long';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            if (sapId.length < 6) {
+                errorDiv.textContent = 'SAP ID must be at least 6 characters long';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            // Store user data in localStorage
+            const userData = {
+                username: username,
+                sapId: sapId,
+                college: college,
+                branch: branch,
+                loginTime: new Date().toISOString()
+            };
+            
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Show success message
+            successDiv.textContent = 'Login successful! Redirecting...';
+            successDiv.style.display = 'block';
+            
+            // Redirect to main page after a short delay
+            setTimeout(() => {
+                window.location.href = 'main.html';
+            }, 1000);
+        });
+        
+        // Add some visual feedback for form interactions
+        document.querySelectorAll('.form-input, .form-select').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+    </script>
+</body>
+</html>
