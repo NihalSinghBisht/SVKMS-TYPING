@@ -421,3 +421,110 @@ function logout() {
 
 // Load user data when page loads
 loadUserData();
+
+// Music functionality
+let musicPlaying = false;
+const audio = document.getElementById('background-music');
+const playIcon = document.getElementById('play-icon');
+const pauseIcon = document.getElementById('pause-icon');
+
+// Auto-play music when page loads (with user interaction fallback)
+function initMusic() {
+    // Set volume to 30% (0.3) for lower sound level
+    audio.volume = 0.3;
+    
+    // Try to play music automatically
+    audio.play().then(() => {
+        musicPlaying = true;
+        updateMusicIcon();
+    }).catch(() => {
+        // If autoplay fails, show play button
+        musicPlaying = false;
+        updateMusicIcon();
+    });
+}
+
+// Toggle music play/pause
+function toggleMusic() {
+    if (musicPlaying) {
+        audio.pause();
+        musicPlaying = false;
+    } else {
+        audio.play().then(() => {
+            musicPlaying = true;
+        }).catch(() => {
+            console.log('Could not play music');
+        });
+    }
+    updateMusicIcon();
+}
+
+// Update music icon based on playing state
+function updateMusicIcon() {
+    if (musicPlaying) {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+    } else {
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+    }
+}
+
+// Initialize music when page loads
+initMusic();
+
+// Share results function
+function shareResults() {
+    const wpm = document.getElementById('final-wpm').textContent;
+    const accuracy = document.getElementById('final-accuracy').textContent;
+    
+    const shareMessage = `🎯 I just completed the typing challenge on SVKMS Type!
+
+⚡ My Typing Speed: ${wpm} WPM
+✅ Accuracy: ${accuracy}
+
+Think you can beat me? 👀  
+Take the test: https://svkms-type.vercel.app/
+
+#SVKMSType #TypingChallenge`;
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(shareMessage).then(() => {
+        // Show success feedback
+        const shareBox = document.querySelector('.share-box');
+        const originalTitle = shareBox.querySelector('.share-title').textContent;
+        const originalSubtitle = shareBox.querySelector('.share-subtitle').textContent;
+        
+        shareBox.querySelector('.share-title').textContent = 'Copied to clipboard! 📋';
+        shareBox.querySelector('.share-subtitle').textContent = 'Share it with your friends!';
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+            shareBox.querySelector('.share-title').textContent = originalTitle;
+            shareBox.querySelector('.share-subtitle').textContent = originalSubtitle;
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = shareMessage;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        // Show success feedback
+        const shareBox = document.querySelector('.share-box');
+        const originalTitle = shareBox.querySelector('.share-title').textContent;
+        const originalSubtitle = shareBox.querySelector('.share-subtitle').textContent;
+        
+        shareBox.querySelector('.share-title').textContent = 'Copied to clipboard! 📋';
+        shareBox.querySelector('.share-subtitle').textContent = 'Share it with your friends!';
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+            shareBox.querySelector('.share-title').textContent = originalTitle;
+            shareBox.querySelector('.share-subtitle').textContent = originalSubtitle;
+        }, 2000);
+    });
+}
