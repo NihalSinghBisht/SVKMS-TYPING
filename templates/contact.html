@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - SVKM Typing Test</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <nav>
+            <a href="{{ url_for('main') }}" class="nav-link">Home</a>
+            <a href="{{ url_for('leaderboard') }}" class="nav-link">Leaderboard</a>
+            <a href="{{ url_for('about') }}" class="nav-link">About</a>
+            <a href="{{ url_for('contact') }}" class="nav-link active">Contact</a>
+            {% if 'user' in session %}
+                <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="content-container">
+        <section class="contact-section">
+            <h1>Contact Us</h1>
+            
+            <div class="contact-form">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">SVKM Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+            
+            <div class="contact-info">
+                <h2>Other Ways to Reach Us</h2>
+                <p>If you prefer to reach us through other means, you can:</p>
+                <ul>
+                    <li>Visit the computer lab during office hours</li>
+                    <li>Contact your course instructor</li>
+                    <li>Submit feedback through the student portal</li>
+                </ul>
+                
+                <p>For technical issues or bug reports, please include:</p>
+                <ul>
+                    <li>Your browser name and version</li>
+                    <li>Steps to reproduce the issue</li>
+                    <li>Screenshots (if applicable)</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
